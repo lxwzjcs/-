@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>护工申请</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+        body{
+        background-repeat: no-repeat;
+        background-image: url("./智慧医养_files/commonbg.jpg");
+        background-size: 100% 100%;
+        background-attachment: fixed;
+    }
+        input,select{
+            border-top:0;
+            border-left:0;
+            border-right:0;
+            border-color: rgb(71, 192, 248);
+            width: 200px;
+        }
+        .botton-w3ls{
+	display: inline-block;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 15px;
+    background: #0086fe;
+    margin: 10px 10px 0 0px;
+    text-decoration: none;
+    text-transform: capitalize;
+	letter-spacing: .5px;
+	padding: 7px 16px;
+		font-size: 14px;
+		margin: 5px 5px 0 0px;
+		margin: 5px 2px 0 0px;
+		width: 120px;
+		font-size: 20px;
+		text-align: center;
+  }
+  .botton-w3ls:hover {
+    background: #ecb731;
+    color: #fff;
+    text-decoration: none;
+	outline:none;
+ 
+}
+.bodysituation{
+margin: auto;
+    width: 50%;
+    line-height: 50px;
+    border-width: 2px 2px 2px 2px;
+    border-style: dashed;
+    border-color: rgb(71, 192, 248);
+}
+
+.personal{
+    margin-left: 30vh;
+    
+}
+.ill{
+    padding-left: 10vh;
+    border-top:2px dashed #0086fe;
+}
+    </style>
+
+    <script>
+        $(function(){
+            //获取URL参数值(用户username)
+		function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("#");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+        //取用户姓名
+        $.ajax({
+            url:'http://192.168.247.4:8000/common/getname',
+            data:{'username':decodeURI(GetUrlParam("username"))},
+            type:'get',
+            success:function(e){
+                console.log(e);
+                document.getElementById("name").innerHTML = e;
+            }
+        });
+
+        //提交护工申请表
+        $('.botton-w3ls').click(function(){
+
+       
+        var userName = $('#name2').val().trim();
+        var userGender = $('#gender option:selected').val().trim();
+        var userAge = $('#age').val().trim();
+        var userRequire = $('#aboutill').val().trim();
+        var useraddress = $('#address').val().trim();
+        var usertel = $('#tel').val().trim();
+        var carerapply = {'user_name':decodeURI(GetUrlParam("username")),'userName':userName,'user_gender':userGender,'user_age':userAge,'user_require':userRequire,'user_addr':useraddress,'user_tel':usertel};
+        
+        $.ajax({
+            url:'http://192.168.247.4:8000/common/submitcarerapply',
+            data:JSON.stringify(carerapply),
+            contentType:"application/json",
+            type:'post',
+            success:function(e){
+                alert("提交成功！");
+                console.log(e);
+            }
+        });
+        });
+        })
+    </script>
+</head>
+<body>
+    <div class="bodysituation">
+    <div class="personal">
+        <h2 style="margin-left: 15vh;">个人信息</h2>
+        <span>申请人姓名：</span><span id="name"></span><br>
+        <span>用户姓名：</span><input type="text" name="" id="name2"><br>
+        <span>用户性别：</span><select name="" id="gender">
+            <option value="0">女</option>
+            <option value="1">男</option>
+        </select><br>
+        <span>用户年龄：</span><input type="text" name="" id="age"><br>
+        <span>用户地址：</span><input type="text" name="" id="address"><br>
+        <span>用户联系方式：</span><input type="text" name="" id="tel">
+     
+    </div>
+    <div class="ill">
+        <h2>客户情况</h2>
+        <textarea name="" id="aboutill" style="font-size: 20px;width: 80vh;height: 250px;" placeholder="提示：简述个人情况，过敏史，遗传病史，重大疾病史,护工要求等"></textarea>
+    </div>
+    <button class="botton-w3ls" style="margin-left: 40vh;">提交</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	 
+    <title>智慧医养平台</title>
+    <link rel="stylesheet" href="./智慧医养_files/animate.min.css">
+	<link rel="stylesheet" href="./智慧医养_files/bootstrap.min.css">
+	<script src="./智慧医养_files/jquery.min.js.下载"></script>
+    <script src="./智慧医养_files/bootstrap.min.js.下载"></script>
+    <style>
+        .header{
+            width: 100%;
+            height: 80px;
+            position: fixed;
+            top: 0px;
+            background-color: gray;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .content{
+            height: 65vh;
+            /* background-color: aqua; */
+            width: 100%;
+        }
+        
+        .item img{height: 100%;
+            width: 100%
+        }
+        body{
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        .logo_tel{
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            align-items: center;
+            padding: 0px 44px;
+            color: white;
+            font-size: 25px
+        }
+        
+        .footer{
+            height: 35vh;
+            background-color:#EEEEEE;
+            width: 100%;
+            position:absolute;
+            bottom: 0px;
+            display: flex;
+            justify-content: space-between;
+            /* padding: 1% 0px; */
+        }
+        .footer > a{
+            width: 80px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .footer > a >div{
+            margin-top: 20px
+        }
+
+        .footer > a >img {
+            width: 68px;
+            height: 68px;
+        }
+        .footer > a:hover{
+            text-decoration-line: none;
+        }
+        .desc{
+            position: absolute;
+            color: red;
+            font-size: 26px;
+            top: 15%;
+            height: 50%;
+            margin: 0px 25%;
+            width: 50%;
+            text-align: center;
+        }
+        .desc1{
+            position: absolute;
+            color: red;
+            font-size: 26px;
+            top: 15%;
+            height: 50%;
+            margin: 0px 10%;
+            width: 80%;
+            text-align: center;
+        }
+        h1{
+            font-size: 56px;
+        }
+        .first_header{
+            font-size: 32px;
+            color: white;
+            text-align: center;
+        }
+        .first_footer{
+            margin-top: 10px;
+            color: white;
+            font-size: 24px;
+            position: relative;
+        }
+        .cont{
+            padding: 3%;
+            text-align: center;
+        }
+        
+        
+        .cont >div {
+            margin-bottom: 5px;
+        }
+        .second_content{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .second_content >div{
+            width: 200px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            color: white;
+            align-items: center;
+            border: 1px solid white;
+            border-radius: 20px;
+            margin-left: 2%;
+            margin-right: 2%;
+            margin-top: 30px;
+        }
+
+        .itemdetail{
+            width: 100%;
+            padding-top: 1.5%;
+        }
+        
+        .itemdetail1{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0px 10%;
+            margin-top: 1%
+        }
+        .itemdetail1 a{
+            text-align: center;
+        }
+        .itemdetail1 a:hover{
+            text-decoration-line: none;
+        }
+        .itemdetail1 div{
+            margin-top: 15%;
+            font-size: 24px;
+            /* margin-left: 15%; */
+        }
+        .itemdetail1 img{
+           width: 75px;  
+           height:75px;  
+        }
+
+        .right {
+            right: 0;
+            left: auto;
+           
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);
+            background-repeat: repeat-x;
+        }
+        .left {
+           
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+            background-repeat: repeat-x;
+        }
+        .toleft{
+            width: 0;
+            height: 0;
+            border-right: 50px solid #3b3b37;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            position: absolute;
+            top: 70px;
+            right: 100px;
+
+        }
+        .toright{
+            width: 0;
+            height: 0;
+            border-left: 50px solid #3b3b37;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            position: absolute;
+            top: 70px;
+            left: 100px;
+
+        }
+    </style>
+    <script>
+        $(function(){
+            document.getElementById("username").innerHTML = decodeURI(GetUrlParam("username"));
+
+            $("#myCarousel").carousel('cycle');
+            // $("#demo").carousel('cycle');
+            	
+            $('#demo').carousel('pause')
+             //获取URL参数值(用户username)
+             
+		function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("#");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+                          
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+
+            $('.information').click(function(){
+                document.getElementsByClassName("information")[0].href="http://127.0.0.1:5500/%E6%9F%A5%E7%9C%8B%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF.html?username="+decodeURI(GetUrlParam("username"));
+            })
+            $('.body').click(function(){
+                document.getElementsByClassName("body")[0].href = "http://127.0.0.1:5500/%E6%8F%90%E4%BA%A4%E8%BA%AB%E4%BD%93%E7%8A%B6%E5%86%B5.html?username="+decodeURI(GetUrlParam("username"));
+            })
+            $('.forum').click(function(){
+                document.getElementsByClassName("forum")[0].href = "http://127.0.0.1:5500/%E7%94%A8%E6%88%B7%E8%AE%BA%E5%9D%9B.html?username="+decodeURI(GetUrlParam("username"));
+            })
+            $('.consultation').click(function(){
+                document.getElementsByClassName("consultation")[0].href = "http://127.0.0.1:5500/%E6%9F%A5%E7%9C%8B%E4%BC%9A%E8%AF%8A%E7%BB%93%E6%9E%9C.html?username="+decodeURI(GetUrlParam("username"));
+            })
+            $('.carerhelp').click(function(){
+                document.getElementsByClassName("carerhelp")[0].href = "http://127.0.0.1:5500/%E6%8F%90%E4%BA%A4%E6%8A%A4%E5%B7%A5%E7%94%B3%E8%AF%B7.html?username="+decodeURI(GetUrlParam("username"));
+            })
+            $('.appoint').click(function(){
+                document.getElementsByClassName("appoint")[0].href = "http://127.0.0.1:5500/%E6%9F%A5%E7%9C%8B%E9%A2%84%E6%A3%80%E7%BB%93%E6%9E%9C.html?username="+decodeURI(GetUrlParam("username"));
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo_tel">
+            
+            <div style="display: flex">
+                <div style="margin-right: 10px;">
+                   <span>欢迎用户：</span><span id="username"></span>
+                   <!-- <span>安全退出</span> -->
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div id="myCarousel" class="carousel slide content">
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+            <!-- <li data-target="#myCarousel" data-slide-to="2"></li> -->
+        </ol>   
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner">
+            <div class="item" style="height: 75vh">
+                <img src="智慧医养_files/background1.jpg" style="height: 100%" alt="First slide">
+                <div class="desc">
+                        <div class="first_header animated fadeInLeft slow bounceOutDown">
+                       
+                            <h1>为医养产业赋能   为全区人民服务</h1>
+                        </div>
+                        <div class="first_footer animated fadeInRightBig slow bounceOutDown">
+                            <div class="cont">
+                                <div>面向全区公众提供一站式医疗服务，智慧医养，健康知识教育</div>
+                                <div>充分释放已有资源投入价值，放大服务价值</div>
+                                <div>助推贯彻卫健委亲民、便民、惠民的“三民理念”，增进全区民众健康获得感，提升幸福指数</div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="item active" style="height: 75vh"> 
+                <img src="智慧医养_files/background2.jpg" style="height: 100%" alt="Second slide">
+                    <div class="desc1">
+                        <div class="first_header animated fadeInLeft slow bounceOutDown">
+                            
+                            <h2>智慧医养平台</h2>
+                        </div>
+                        <div class="second_content animated fadeInRightBig slow bounceOutDown">
+                            <div>寻医问药论坛</div>
+                            
+                        </div>
+                        <div class="second_content animated fadeInLeft slow bounceOutDown">
+                           
+                            
+                            <div>个人信息管理</div>
+                            <div>身体情况管理</div>
+                            
+                        </div>
+                        <div class="second_content animated fadeInRightBig slow bounceOutDown">
+                            <div>预检结果</div>
+                            <div>会诊结果</div>
+                            <div>病人护工管理</div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        
+        
+    </div> 
+    <div class="footer">
+            <div id="demo" class="carousel slide" style="width: 100%" data-ride="">
+                    <!-- 指示符 -->
+                    <!-- <ul class="carousel-indicators">
+                      <li data-target="#demo" data-slide-to="0" class="active"></li>
+                      <li data-target="#demo" data-slide-to="1"></li>
+                      <li data-target="#demo" data-slide-to="2"></li>
+                    </!-->
+                   
+                    <!-- 轮播图片 -->
+                    <div class="carousel-inner">
+                        <div class="item itemdetail">
+                            <div style="display: flex;justify-content: center;font-size: 28px;color: steelblue;">寻医问药论坛板块</div>
+                            <div class="itemdetail1">
+                                <a target="_blank" href="#" class="forum">
+                                    <img src="./智慧医养_files/寻医问药.png">
+                                    <div>寻医问药论坛</div>
+                                </a>
+                                
+                            </div>
+                        </div>
+                        <div class="item itemdetail active">
+                                <div style="display: flex;justify-content: center;font-size: 28px;color: steelblue;">个人板块</div>
+                                <div class="itemdetail1">
+                                    <a target="_blank" href="#" class="information">
+                                        <img src="./智慧医养_files/个人信息.png">
+                                        <div>个人信息管理</div>
+                                        
+                                    </a>
+                                    <a target="_blank" href="#" class="body">
+                                        <img src="./智慧医养_files/身体数据.png">
+                                        <div>身体状况管理</div>
+                                    </a>
+                                    
+                                    </div>
+                        </div>
+                        <div class="item itemdetail">
+                                <div style="display: flex;justify-content: center;font-size: 28px;color: steelblue;">结果查看板块</div>
+                                <div class="itemdetail1">
+                                    <a target="_blank" href="#" class="appoint">
+                                        <img src="./智慧医养_files/体检.png">
+                                        <div>预检结果</div>
+                                    </a>
+                                    <a target="_blank" href="#" class="consultation">
+                                        <img src="./智慧医养_files/会诊.png">
+                                        <div>会诊结果</div>
+                                    </a>
+                                    <a target="_blank" href="#" class="carerhelp">
+                                        <img src="./智慧医养_files/护工.png">
+                                        <div>病人护工管理</div>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <!-- 左右切换按钮 -->
+                    <a class="left carousel-control" href="#demo" role="button" data-slide="prev">
+                        <span class="toleft"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#demo" role="button" data-slide="next">
+                        <span class="toright"></span>
+                        <span class="sr-only">Next</span>
+                   </a>
+            </div>
+            
+        
+    </div>
+
+</body></html>

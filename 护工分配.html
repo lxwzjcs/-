@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>护工分配</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+        body{
+            background-image: url("智慧医养_files/会诊bg.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+        body {
+	margin: 0;
+	font: normal 15px "Microsoft YaHei";
+	color: #0C0C0C;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+h1{
+    text-align: center;
+
+}
+
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft Yahei"
+}
+
+
+
+a:link,a:visited,a:hover,a:active {
+	list-style: none;
+	text-decoration: none;
+	color: #909090;
+}
+
+
+
+.table {
+	padding: 0;
+	margin: 0;
+	position: relative;
+	margin: 0 auto;
+}
+
+.table tbody tr th {
+	background: #044599 no-repeat;
+	text-align: center;
+	border-left: 1px solid #02397F;
+	border-right: 1px solid #02397F;
+	border-bottom: 1px solid #02397F;
+	border-top: 1px solid #02397F;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: #fff;
+	height: 37px;
+}
+
+.table tbody tr td {
+	text-align: center;
+	border-left: 1px solid #ECECEC;
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+	font-size: 15px;
+	color: #909090;
+	height: 37px;
+}
+    </style>
+
+    <script>
+        $(function() {
+
+
+            //获取URL参数值(userId)
+           function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("#");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+                          
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+           var userId = GetUrlParam("userId");
+		var s3;
+		$.ajax({
+			url:'http://192.168.247.4:8000/admin/showcarer',
+			type:'get',
+			dataType:'json',
+			data:{'flag':1},
+			success:function(e){
+				console.log(e);
+			
+				var count3 = e.count;
+				s3 = e.list;
+                console.log(s3);
+
+
+				var tableobj =document.getElementById("cartable");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("td");
+                for(w=0;w<count3;w++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].name;
+                    trobj.appendChild(tdobj);
+					var tdobj = document.createElement("td");
+                    if(s3[w].gender==1){
+                        tdobj.innerHTML="男";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s3[w].gender==0){
+                        tdobj.innerHTML="女";
+                        trobj.appendChild(tdobj);
+                    }
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].age;
+                    trobj.appendChild(tdobj);
+
+                    
+
+                    
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].tel;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].card;
+                    trobj.appendChild(tdobj);
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].addr;
+                    trobj.appendChild(tdobj);
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].workyear;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    if(s3[w].serveType==0){
+                        tdobj.innerHTML="居家服务";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s3[w].serveType==1){
+                        tdobj.innerHTML="非居家服务";
+                        trobj.appendChild(tdobj);
+                    }
+	
+
+					var tdobj = document.createElement("td");
+                    if(s3[w].employee==0){
+                        tdobj.innerHTML="未雇佣";
+                        trobj.appendChild(tdobj);
+						
+                    }
+                    if(s3[w].employee==1){
+                        tdobj.innerHTML="已雇佣";
+                        trobj.appendChild(tdobj);
+						
+                    }
+
+					
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="<a href='#' class='table3'>分配</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var x = s3[w].carerId;
+                    document.getElementsByClassName("table3")[w].id=x;
+                    
+                    
+                    
+                    // 如果鼠标移到行上时，执行函数
+                    $('.table tr').css('text-align' , 'center');
+                    $('.table tr').css('font-size' , '15px');
+                    $('.table tr').css('line-height' , '50px');
+                    $('.table tr').css({background : "#FFF"});
+                    $('.table tr').css({color: "#909090"});
+
+
+	$(".table tr").mouseover(function() {
+		$(this).css({background : "#CDDAEB"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#1D1E21"});
+		});
+	}).mouseout(function() {
+		$(this).css({background : "#FFF"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#909090"});
+		});
+	});
+        }
+                    $('.table3').click(function(){
+		                var q = this.id;
+       
+		                $.ajax({
+			                url:'http://192.168.247.4:8000/admin/assigncarer',
+			                type:'get',
+			                data:{'carerId':q,'commonId':userId},
+			                success:function(){
+				                alert("分配成功！");
+			                }
+
+
+				
+
+		                })
+	                });
+
+
+        
+				
+}
+			});
+});
+    </script>
+</head>
+<body>
+    <div id="carer">
+        <div class="ui_content">
+            <div class="ui_tb">
+                <h1>护工表</h1>
+                <table class="table" id="cartable" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+                    <tr>
+                        
+                        </th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>手机号</th>
+                        <th>身份证号</th>
+                        <th>家庭住址</th>
+                        <th>工作年份</th>
+                        <th>服务类型</th>
+                        <th>是否被雇佣</th>
+                        <th>操作</th>
+                    </tr>
+                        
+                    
+                        
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+        
+    
+</body>
+</html>

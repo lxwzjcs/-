@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+
+
+
+
+<title>展示护工申请表</title>
+<style>
+	body{
+            background-image: url("智慧医养_files/会诊bg.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+	body {
+	margin: 0;
+	font: normal 15px "Microsoft YaHei";
+	color: #0C0C0C;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+h1{
+    text-align: center;
+
+}
+#common,#carer{
+	display: none;
+}
+
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft Yahei"
+}
+
+
+
+a:link,a:visited,a:hover,a:active {
+	list-style: none;
+	text-decoration: none;
+	color: #909090;
+}
+
+
+
+.table {
+	padding: 0;
+	margin: 0;
+	position: relative;
+	margin: 0 auto;
+}
+
+.table tbody tr th {
+	background: #044599 no-repeat;
+	text-align: center;
+	border-left: 1px solid #02397F;
+	border-right: 1px solid #02397F;
+	border-bottom: 1px solid #02397F;
+	border-top: 1px solid #02397F;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: #fff;
+	height: 37px;
+}
+
+.table tbody tr td {
+	text-align: center;
+	border-left: 1px solid #ECECEC;
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+	font-size: 15px;
+	color: #909090;
+	height: 37px;
+}
+</style>
+
+<script>
+	$(function() {
+		var s1;
+
+		$.ajax({
+			url:'http://192.168.247.4:8000/admin/checkcarerapply',
+			type:'get',
+			dataType:'json',
+			data:{'flag':1},
+			success:function(e){
+				console.log(e);
+				var count1 = e.count;
+				s1 = e.list;
+                console.log(s1);
+				
+
+				var tableobj =document.getElementById("carapply");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("td");
+                for(j=0;j<count1;j++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].applyId;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].commonId;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].userName;
+                    trobj.appendChild(tdobj);
+                    
+
+                    var tdobj = document.createElement("td");
+                    if(s1[j].userGender==0){
+                        tdobj.innerHTML="女";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s1[j].userGender==1){
+                        tdobj.innerHTML="男";
+                        trobj.appendChild(tdobj);
+                    }
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].userAge;
+                    trobj.appendChild(tdobj);
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].userRequire;
+                    trobj.appendChild(tdobj);
+
+                    
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="<a href='#' class='table1'>分配</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var u = "http://127.0.0.1:5500/%E6%8A%A4%E5%B7%A5%E5%88%86%E9%85%8D.html?userId="+s1[j].commonId;
+                    
+	                document.getElementsByClassName("table1")[j].href=u;
+        
+
+                
+                    
+                }
+
+
+				// 如果鼠标移到行上时，执行函数
+				$('.table tr').css('text-align' , 'center');
+                    $('.table tr').css('font-size' , '15px');
+                    $('.table tr').css('line-height' , '50px');
+					$('.table tr').css({background : "#FFF"});
+                    $('.table tr').css({color: "#909090"});
+
+	$(".table tr").mouseover(function() {
+		$(this).css({background : "#CDDAEB"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#1D1E21"});
+		});
+	}).mouseout(function() {
+		$(this).css({background : "#FFF"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#909090"});
+		});
+	});
+}
+			});
+});
+</script>
+
+
+</head>
+<body>
+	<div><h1>护工申请表</h1></div>
+	<div id="docter">
+			<div class="ui_content">
+				<div class="ui_tb">
+					<table class="table" id="carapply" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+						<tr>
+							
+							</th>
+							<th>申请表编号</th>
+							<th>用户编号</th>
+							<th>用户名字</th>
+							<th>用户性别</th>
+							<th>用户年龄</th>
+							<th>用户自述</th>
+
+							<th>操作</th>
+						</tr>
+							
+						
+							
+						
+					</table>
+				</div>
+			</div>
+	</div>
+				
+				
+
+</body>
+</html>

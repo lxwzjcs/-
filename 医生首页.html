@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'>
+
+    <title>智慧医养医生首页</title>
+    <style>
+      body{
+          margin: 0;
+          background-image: url("./智慧医养_files/docbg.jpg");
+          background-size: 100% 100%;
+          background-attachment: fixed; 
+      }
+      #bar,#docinf{
+          float: left;
+      }
+      .docinf-submit:hover{
+          background-color: white;
+          border-color: rgba(0, 0, 0, 0.212);
+          color: rgba(0, 0, 0, 0.212);
+          width: 70px;
+          height: 50px;
+          border-radius: 20%;
+          cursor: pointer;
+        }
+      
+      ul{
+	      list-style-type:none;
+	      margin:0;
+	      padding:0;
+          width: 40vh;
+          height: 100vh;
+          background-color: #02397F;
+          font-size: 30px
+      }
+      li a{
+          text-decoration: none;
+          color: whitesmoke;
+          display: block;
+          padding: 15px 30px;
+      }
+      
+     
+      li a:hover{
+          background-color: rgb(247, 234, 226);
+          color: rgb(31, 29, 29);
+      }
+      
+      
+      
+      .active{
+          background-color: rgb(247, 234, 226);
+          color: rgb(31, 29, 29);
+          display: block;
+      }
+      
+      
+      #docinf{
+          width: 45vh;
+          height: 50vh;
+          margin-left: 40vh;
+          line-height: 50px;
+          padding-left: 150px;
+          padding-right: 150px;
+          padding-top: 100px;
+          padding-bottom: 100px;
+          display: none;
+          
+      }
+      .logo-docinf{
+          width: 30px;
+          height: 30px;
+          
+      }
+      .docinf-submit{
+          background-color: rgba(0, 0, 0, 0.212);
+          border-color: rgba(0, 0, 0, 0.212);
+          color: white;
+          width: 70px;
+          height: 50px;
+          border-radius: 20%;
+      }
+
+      #patinf{
+          font-size: 20px;
+      }
+      .patient{
+          
+          margin-left: 45vh;
+          overflow: auto;
+          display: none;
+      }
+      #patinf th{
+          width: 20vh;
+      }
+      .appointment{
+          margin-left: 45vh;
+      }
+      .doc-advice{
+          margin-left: 45vh;
+      }
+      #advice{
+          width: 100vh;
+          height: 15vh;
+          overflow: auto;
+      }
+      
+      #method {
+          font-size: 20px;
+          
+      }
+      .m-patient{
+          display: none;
+          margin-left: 45vh;
+          overflow: auto;
+
+      }
+      .m-patient th{
+          width: 20vh;
+      }
+      .m-method{
+          display: none;
+      }
+      .CheckResult{
+          margin-left: 45vh;
+      }
+      .CheckResult th{
+          width: 30vh;
+      }
+    #tid1 tr th {
+	background: #044599 no-repeat;
+	text-align: center;
+	border-left: 1px solid #02397F;
+	border-right: 1px solid #02397F;
+	border-bottom: 1px solid #02397F;
+	border-top: 1px solid #02397F;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: #fff;
+	height: 37px;
+    }
+
+    #tid2 tr th {
+    background: #044599 no-repeat;
+	text-align: center;
+	border-left: 1px solid #02397F;
+	border-right: 1px solid #02397F;
+	border-bottom: 1px solid #02397F;
+	border-top: 1px solid #02397F;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: #fff;
+	height: 37px;    
+    }
+    .table1 th{
+    text-align: center;
+	border-left: 1px solid #ECECEC;
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+	font-size: 15px;
+	color: #909090;
+	height: 37px;
+    }
+
+    .table2 th{
+    text-align: center;
+	border-left: 1px solid #ECECEC;
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+	font-size: 15px;
+	color: #909090;
+	height: 37px;
+    }
+     
+    .forum{
+        font-family: 'Muli', sans-serif;
+        overflow: auto;
+        display: none;
+    }
+    .h1 {
+	margin-left: 30%;
+	margin-top: 50px;
+	margin-bottom: 30px;
+
+}
+
+
+.faqs-container {
+	margin-left: 10%;
+    width: 80%;
+
+	
+}
+
+
+.faq {
+	background-color: transparent;
+	border: 1px solid #9FA4A8;
+	border-radius: 10px;
+	padding: 30px;
+	position: relative;
+	overflow: hidden;
+	margin: 20px 0;
+	transition: 0.3s ease;
+    width: 70%;
+}
+
+
+
+.faq.active {
+	background-color: #fff;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.faq.active::after, .faq.active::before {
+	color: #2ecc71;
+	content: '\f075';
+	font-family: 'Font Awesome 5 Free';
+	font-size: 7rem;
+	position: absolute;
+	opacity: 0.2;
+	top: 20px;
+	left: 20px;
+	z-index: 0;
+}
+
+.faq.active::before {
+	color: #3498db;
+	top: -10px;
+	left: -30px;
+	transform: rotateY(180deg);
+}
+
+.faq-title {
+	margin: 0 35px 0 0;
+}
+
+
+.faq-text {
+	display: none;
+
+}
+
+.faq.active .faq-text {
+	display: block;
+}
+
+.faq-doc {
+	display: none;
+
+}
+
+.faq.active .faq-doc {
+	display: block;
+}
+
+
+.faq-toggle {
+	background-color: transparent;
+	border: none;
+	border-radius: 50%;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	padding: 0;
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	height: 30px;
+	width: 30px;
+}
+
+.faq-toggle:focus {
+	outline: none;
+}
+
+.faq.active .faq-toggle {
+	background-color: #9FA4A8;
+}
+
+.faq-toggle .fa-times {
+	display: none;
+}
+
+.faq.active .faq-toggle .fa-times {
+	display: block;
+}
+
+.faq-toggle .fa-chevron-down {
+	color: #83888E;
+}
+
+.faq.active .faq-toggle .fa-chevron-down {
+	display: none;
+}
+.ifreply{
+    color: #0086fe;
+    border-width: 2px 2px 2px 2px;
+    border-style: dashed;
+    margin-right: 10vh;
+}
+
+.reply{
+	display: inline-block;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 15px;
+    background: #0086fe;
+    margin: 10px 10px 0 0px;
+    text-decoration: none;
+    text-transform: capitalize;
+	letter-spacing: .5px;
+	padding: 7px 16px;
+		font-size: 14px;
+		margin: 5px 5px 0 0px;
+		margin: 5px 2px 0 0px;
+		width: 60px;
+		font-size: 10px;
+		text-align: center;
+  }
+  .reply:hover {
+    background: #ecb731;
+    color: #fff;
+    text-decoration: none;
+	outline:none;
+}
+
+    </style>
+    
+    <script>
+        
+       $(function(){
+        $('#a-docinf').click(function(){
+            $('#a-docinf').addClass('active');
+            $('#a-patinf').removeClass('active');
+            $('#a-method').removeClass('active');
+            $('#a-forum').removeClass('active');
+
+            $('#docinf').css('display','block');
+            $('.patient').css('display','none');
+            $('.forum').css('display','none');
+            $('.m-patient').css('display','none');
+            $('.m-method').css('display','none');
+            
+        });
+        
+        $('#a-patinf').click(function(){
+            $('#a-patinf').addClass('active');
+            $('#a-docinf').removeClass('active');
+            $('#a-method').removeClass('active');
+            $('#a-forum').removeClass('active');
+
+			$('.patient').css('display','block');
+			$('#docinf').css('display','none');
+            $('.forum').css('display','none');
+            $('.m-patient').css('display','none');
+            $('.m-method').css('display','none');
+            
+        });
+        
+        $('#a-method').click(function(){
+            $('#a-method').addClass('active');
+            $('#a-patinf').removeClass('active');
+            $('#a-docinf').removeClass('active');
+            $('#a-forum').removeClass('active');
+            
+            $('.m-patient').css('display','block');
+            $('.patient').css('display','none');
+            $('.forum').css('display','none');
+			$('#docinf').css('display','none');
+            $('.m-method').css('display','none');
+            
+        });
+        
+        $('#a-forum').click(function(){
+            $('#a-forum').addClass('active');
+            $('#a-patinf').removeClass('active');
+            $('#a-method').removeClass('active');
+            $('#a-docinf').removeClass('active');
+            
+            $('.forum').css('display','block');
+            $('.patient').css('display','none');
+            $('.m-patient').css('display','none');
+			$('#docinf').css('display','none');
+            $('.m-method').css('display','none');
+        });
+    });
+    
+   </script>
+  
+   <script type="text/javascript">
+   
+    //打开预约页面并传参
+    //function q(j){
+        //window.open("http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E7%97%85%E6%83%85%E8%87%AA%E8%BF%B0.html?patname="+s[j].name+"&ill="+s[j].ill);
+    //}
+    //打开患者处方处理并传参
+    //function x(j){
+        //window.open("http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E5%A4%84%E6%96%B9%E5%A4%84%E7%90%86.html?patname="+s[j].name+"&ill="+s[j].ill);
+    //}
+    var s;
+    var p;
+    
+    var t; 
+    var r; 
+    
+
+       $(document).ready(function(){
+           
+           var user;
+          //$('.t'+t).click(function(){
+            //window.open("http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E7%97%85%E6%83%85%E8%87%AA%E8%BF%B0.html?patname="+s[t].name+"&ill="+s[t].ill);
+
+          //});
+
+          //$('.r'+r).click(function(){
+            //window.open("http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E5%A4%84%E6%96%B9%E5%A4%84%E7%90%86.html?patname="+p[r].name+"&ill="+p[r].ill);
+          //})
+              
+                    
+           //获取URL参数值(医生username)
+           function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("#");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+           console.log(GetUrlParam("username"));
+　　　　     user = decodeURI(GetUrlParam("username"));
+　　
+
+        //get请求并处理患者信息
+        $.ajax({
+            url:'http://192.168.247.4:8000/doctor/showpatient',
+            type:'get',
+            data:{'flag':1},
+            dataType:'json',
+            success:function(w){
+                
+                console.log(w);
+                console.log(w.count);
+                console.log(w.list[0]);
+                s = w.list;
+                console.log(s);
+                var count = w.count;
+
+
+                //打开预约页面并传参
+                //function q(j){
+                //    window.open("http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E7%97%85%E6%83%85%E8%87%AA%E8%BF%B0.html?patname="+s[j].name+"&ill="+s[j].ill);
+                //}
+                
+
+                //建患者信息表格tid1
+                var tableobj =document.getElementById("set1");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("th");
+                for(j=0;j<count;j++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML=s[j].commonId;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML=s[j].name;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("th");
+                    if(s[j].gender==1){
+                        tdobj.innerHTML="男";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s[j].gender==0){
+                        tdobj.innerHTML="女";
+                        trobj.appendChild(tdobj);
+                    }
+
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML=s[j].age;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML=s[j].temp;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML=s[j].height;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML=s[j].weight;
+                    trobj.appendChild(tdobj);
+                    t=j;
+                    
+                    var tdobj = document.createElement("th");
+                    tdobj.innerHTML="<a href='#' class='table1' target='_blank'>详情</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var u = "http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E7%97%85%E6%83%85%E8%87%AA%E8%BF%B0.html?patname="+s[j].name+"&ill="+s[j].ill;
+                    document.getElementsByClassName("table1")[j].href=u;
+                    
+        
+
+                
+                    
+                }
+                
+                	// 如果鼠标移到行上时，执行函数
+				$('#set1 tr').css('text-align' , 'center');
+                    $('#set1 tr').css('font-size' , '15px');
+                    $('#set1 tr').css('line-height' , '50px');
+                    $('#set1 tr').css({background : "#FFF"});
+                    $('#set1 tr').css({color: "#909090"});
+
+	$("#set1 tr").mouseover(function() {
+		$(this).css({background : "#CDDAEB"});
+		$(this).children('th').each(function(index, ele){
+			$(ele).css({color: "#1D1E21"});
+		});
+	}).mouseout(function() {
+		$(this).css({background : "#FFF"});
+		$(this).children('th').each(function(index, ele){
+			$(ele).css({color: "#909090"});
+		});
+	});
+                
+            
+            }
+            
+        });
+        
+
+        //展示医生信息
+        $('#a-docinf').click(function(){
+            var show = {'username':user};
+            $.ajax({
+                url:'http://192.168.247.4:8000/doctor/showself',
+                type:'post',
+                data:JSON.stringify(show),
+                dataType:'json',
+                contentType:"application/json",
+                success:function(e){
+                    console.log("医生信息:"+e);
+                    document.getElementsByClassName("docname")[0].value=e.name;
+                    if(e.gender==0){
+                        document.getElementsByClassName("woman")[0].selected="selected";
+                    }
+                    if(e.gender==1){
+                        document.getElementsByClassName("man")[0].selected="selected";
+
+                    }
+                    document.getElementsByClassName("docage")[0].value=e.age;
+                    document.getElementsByClassName("doctel")[0].value=e.tel;
+                    document.getElementsByClassName("dochospital")[0].value=e.hospital;
+                    document.getElementsByClassName("docdepart")[0].value=e.depart;
+                    if(e.title=0){
+                    document.getElementsByClassName("normal")[0].selected="selected";
+
+                    }
+                    if(e.title=1){
+                    document.getElementsByClassName("chief")[0].selected="selected";
+
+                    }
+                    if(e.title=2){
+                    document.getElementsByClassName("specialist")[0].selected="selected";
+
+                    }
+
+
+
+
+
+                    
+                }
+            })
+        });
+        
+        //更新医生信息
+        $('.docinf-submit').click(function(){
+            var docname = $('.docname').val().trim();
+            var docgender = $('.docgender option:selected').val().trim();
+            var docage = $('.docage').val().trim();
+            var doctel = $('.doctel').val().trim();
+            var doctitle = $('.doctitle option:selected').val().trim();
+            var dochospital = $('.dochospital').val().trim();
+            var docdepart = $('.docdepart').val().trim();
+
+            var doc = {'name':docname,'gender':docgender,'age':docage,'tel':doctel,
+                       'title':doctitle,'hospital':dochospital,'depart':docdepart,'username':user};
+
+            $.ajax({
+                url:'http://192.168.247.4:8000/doctor/addself',
+                data:JSON.stringify(doc),
+                contentType:"application/json",
+                type:'post',
+                success:function(e){
+                    console.log(e);
+                    alert("提交成功！");
+                }
+
+            });           
+        });
+
+
+        //点击处方处理获取处方处理患者表tid2
+        $('#a-method').click(function(){
+            $.ajax({
+                url:'http://192.168.247.4:8000/doctor/showpreresult',
+                type:'get',
+                data:{'flag':1},
+                dataType:'json',
+                success:function(e){
+                    console.log(e);
+                    p = e.list;
+                    console.log(p);
+                    var count = e.count;
+                    
+                    
+                    var tb = document.getElementById("set2");
+                    var rowNum=tb.rows.length;
+                    for (i=0;i<rowNum;i++){
+
+                        tb.deleteRow(i);
+                        rowNum=rowNum-1;
+                        i=i-1;
+                    }
+                    //建表tid2
+                    var tableobj =document.getElementById("set2");
+                    var trobj =document.createElement("tr");
+                    var tdobj = document.createElement("th");
+                    for(i=0;i<count;i++){
+                        var trobj =document.createElement("tr");
+
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML=p[i].commonId;
+                        trobj.appendChild(tdobj);
+
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML=p[i].name;
+                        trobj.appendChild(tdobj);
+
+                        var tdobj = document.createElement("th");
+                        if(p[i].gender==1){
+                            tdobj.innerHTML="男";
+                            trobj.appendChild(tdobj);
+                        }
+                        if(p[i].gender==0){
+                            tdobj.innerHTML="女";
+                            trobj.appendChild(tdobj);
+                        }
+
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML=p[i].age;
+                        trobj.appendChild(tdobj);
+
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML=p[i].temp;
+                        trobj.appendChild(tdobj);
+
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML=p[i].height;
+                        trobj.appendChild(tdobj);
+
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML=p[i].weight;
+                        trobj.appendChild(tdobj);
+                        r=i;
+                        var tdobj = document.createElement("th");
+                        tdobj.innerHTML="<a href='#' class='table2' target='_blank'>详情</a>";
+                        trobj.appendChild(tdobj);
+
+                        trobj.appendChild(tdobj);
+                        tableobj.appendChild(trobj);
+                        var v = "http://127.0.0.1:5500/%E6%82%A3%E8%80%85%E5%A4%84%E6%96%B9%E5%A4%84%E7%90%86.html?patname="+p[i].name+"&ill="+p[i].ill+"&docname="+user;
+                        document.getElementsByClassName("table2")[i].href=v;
+                
+                        
+                }
+                // 如果鼠标移到行上时，执行函数
+				$('#set2 tr').css('text-align' , 'center');
+                    $('#set2 tr').css('font-size' , '15px');
+                    $('#set2 tr').css('line-height' , '50px');
+                    $('#set2 tr').css({background : "#FFF"});
+                    $('#set2 tr').css({color: "#909090"});
+
+	$("#set2 tr").mouseover(function() {
+		$(this).css({background : "#CDDAEB"});
+		$(this).children('th').each(function(index, ele){
+			$(ele).css({color: "#1D1E21"});
+		});
+	}).mouseout(function() {
+		$(this).css({background : "#FFF"});
+		$(this).children('th').each(function(index, ele){
+			$(ele).css({color: "#909090"});
+		});
+	});               
+                }
+            });
+        });
+    });
+   </script>
+   <script>
+	$(function(){
+		var s1;
+		var s2;
+
+        //获取URL参数值(username)
+		function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("#");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+                          
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+		$.ajax({
+			url:'http://192.168.247.4:8000/doctor/showask',
+			type:'get',
+			data:{'flag':1},
+			dataType:'json',
+			success:function(e){
+				console.log(e);
+				var count1 = e.count1;
+				var count2 = e.count2;
+				s1 = e.list1;
+				s2 = e.list2;
+
+				var a=document.getElementsByClassName("faqs-container")[0];
+
+				for(i=0;i<count1;i++){
+					var newdiv = document.createElement("div");
+					newdiv.className = "faq";
+                    newdiv.style.display = "inline-block";
+					a.appendChild(newdiv);
+
+					var newh3 = document.createElement("h3");
+					newh3.innerHTML = s1[i].askContent;
+					newh3.className = "faq-title";
+					newdiv.appendChild(newh3);
+
+					var newh4 = document.createElement("span");
+					newh4.innerHTML = s1[i].commonName;
+					newdiv.appendChild(newh4);
+					var newh42 = document.createElement("span");
+					newh42.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +s1[i].askTime;
+					newh42.className = "faq-asktime";	
+					newdiv.appendChild(newh42);
+					for(j=0;j<count2;j++){
+						if(s1[i].askId==s2[j].askId){
+							var newp = document.createElement("h3");
+					        newp.innerHTML = s2[j].replyContent;
+					        newp.className = "faq-text";
+					        newdiv.appendChild(newp);
+
+							var newspan1 = document.createElement("span");
+					        newspan1.innerHTML = s2[j].doctorName+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+s2[j].replyTime;
+							newspan1.className = "faq-doc";
+					        newdiv.appendChild(newspan1);
+
+					 
+						}
+
+					}
+					
+					var newbutton = document.createElement("button");
+					newbutton.className = "faq-toggle";
+					newdiv.appendChild(newbutton);  //<i class="fas fa-chevron-down"></i> <i class="fas fa-times"></i>
+                    var newi1 = document.createElement("i");
+					newi1.className = "fas fa-chevron-down";
+					newbutton.appendChild(newi1);
+					var newi2 = document.createElement("i");
+					newi2.className = "fas fa-times";
+					newbutton.appendChild(newi2);
+
+                    var newspan2 = document.createElement("span");
+                    if(s1[i].ifReply==0){
+                        newspan2.innerHTML = "未回复";
+                        newspan2.style.border = "2px 2px 2px 2px solid black";
+                        newspan2.className = "ifreply";
+                        a.appendChild(newspan2);
+                        var newa2 = document.createElement("a");
+                        newa2.innerHTML = "回复";
+                        newa2.href = "http://127.0.0.1:5500/%E5%8C%BB%E7%94%9F%E5%9B%9E%E5%A4%8D.html?username="+decodeURI(GetUrlParam("username"))+"&askId="+s1[i].askId;
+                        newa2.className = "reply";
+                        a.appendChild(newa2);
+
+                    }
+                    if(s1[i].ifReply==1){
+                        newspan2.innerHTML = "已回复";
+                        newspan2.style.border = "2px 2px 2px 2px solid black";
+                        newspan2.className = "ifreply";
+                        a.appendChild(newspan2);
+                        var newa2 = document.createElement("a");
+                        newa2.innerHTML = "回复";
+                        newa2.target = "_blank";
+                        newa2.href = "http://127.0.0.1:5500/%E5%8C%BB%E7%94%9F%E5%9B%9E%E5%A4%8D.html?username="+decodeURI(GetUrlParam("username"))+"&askId="+s1[i].askId;
+                        newa2.className = "reply";
+                        a.appendChild(newa2);
+
+                    }
+
+				}
+
+				let toggles = document.querySelectorAll('.faq-toggle');
+
+                toggles.forEach(toggle => {
+	                toggle.addEventListener('click', () => {
+		            toggle.parentNode.classList.toggle('active');
+	                });
+                });
+			}	
+		})
+        document.getElementById("username").innerHTML = decodeURI(GetUrlParam("username"));
+	})
+</script>
+</head>
+<body>
+    <div id="welcome" style="background-color: #02397F;color: whitesmoke;height: 40px;font-size: 20px;">欢迎医生：</span><span id="username"></div>
+
+    <div id="bar">
+        <ul>
+        <li><a href="#" id="a-docinf">医生个人信息</a></li>
+        <li><a href="#" id="a-patinf">患者信息</a></li>
+        <li><a href="#" id="a-method">处方处理</a></li>
+        <li><a href="#" id="a-forum">论坛回复</a></li>
+        </ul>
+    </div>
+    <div id="docinf" >
+          <div class="name">
+              <span class="label"><img src="./智慧医养_files/医生.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 医生姓名：</span>
+              <sapn class="value"><input name="name" type="text" class="docname"></sapn>
+          </div>
+          <div class="gender">
+              <span class="label"><img src="./智慧医养_files/性别.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 性别：</span>
+              <span class="value"><select class="docgender">
+                  <option value="0" class="woman">女</option>
+                  <option value="1" class="man">男</option>
+                </select></span>
+          </div>
+          <div class="age">
+            <span class="label"><img src="./智慧医养_files/年龄.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 年龄：</span>
+            <sapn class="value"><input name="age" type="number" class="docage"></sapn>
+        </div>
+        <div class="tel">
+            <span class="label"><img src="./智慧医养_files/电话号码.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 电话号码：</span>
+            <sapn class="value"><input name="tel" type="tel" class="doctel"></sapn>
+        </div>
+        <div class="title">
+            <span class="label"><img src="./智慧医养_files/职位.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 职位：</span>
+            <sapn class="value">
+                <select class="doctitle">
+                    <option value="0" class="normal">普通医生</option>
+                    <option value="1" class="chief">主任医师</option>
+                    <option value="2" class="specialist">专家</option>
+                </select>
+            </sapn>
+        </div>
+        <div class="hospital">
+            <span class="label"><img src="./智慧医养_files/医院.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 所处医院：</span>
+            <sapn class="value"><input name="hospital" type="text" class="dochospital"></sapn>
+        </div>
+        <div class="depart">
+            <span class="label"><img src="./智慧医养_files/科室.png" class="logo-docinf">&nbsp;&nbsp;&nbsp; 科室：</span>
+            <sapn class="value"><input name="depart" type="text" class="docdepart"></sapn>
+        </div>
+    </br>
+        <input type="submit" class="docinf-submit">
+
+    </div> 
+
+    <div id="patinf">
+        
+        <div class="patient">
+            <h1>患者信息</h1>
+            <table border="2px 2px 2px solid black" id="tid1">
+                <tr>
+                    <th>患者编号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>体温</th>
+                    <th>身高</th>
+                    <th>体重</th>
+                    <th>病情自述</th>
+                </tr>
+            </table>
+            <table border="2px 2px 2px solid black" id="set1"></table>
+        </div>
+    </div>
+   
+    
+
+    <div id="method">
+         <div class="m-patient">
+             <h1>处方处理患者</h1>
+             <table border="2px 2px 2px solid black" id="tid2">
+                <tr>
+                    <th>患者编号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>体温</th>
+                    <th>身高</th>
+                    <th>体重</th>
+                    <th>病情自述</th>
+                </tr>
+            </table>
+            <table border="2px 2px 2px solid black" id="set2"></table>
+         </div> 
+         
+    </div>
+
+    <div class="forum">
+        <h1 class="h1">常见问题</h1>
+        <div class="faqs-container"></div>
+    </div>
+
+
+</body>
+
+
+</html>

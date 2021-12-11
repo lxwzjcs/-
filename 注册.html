@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <style>
+    body{
+        font-size: 20px;
+        background-image: url("智慧医养_files/registerbackground.jpg");
+        background-size: cover;
+    }
+    #register {
+        width: 60vh;
+        height: 60vh;
+        padding-top: 45px;
+        padding-left: 90px;
+        margin: auto;
+        margin-top: 20vh;
+        line-height: 50px;
+        background-color:rgba(13, 111, 238, 0.466);
+    }
+    
+    #submitBtn{
+        width: 50vh;
+        font-size: 30px;
+        background-color: rgba(24, 66, 253, 0.425);
+        border-style: dashed;
+    }
+    </style>
+</head>
+<body>
+    <div id="register">
+        <div class="form">
+          <form action="" method="">
+        <p class="inp">
+            用户名：&nbsp;&nbsp;&nbsp;<input type="text" placehoder="请输入内容" id="username">
+        </p>
+        <p class="inp">
+            密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placehoder="请输入内容" id="password">
+        </p>
+        <p class="inp">
+            确认密码：<input type="password" placehoder="请输入内容" id="conf-password">
+        </p>
+        <p class="inp">
+            电话号码：<input type="text" placeholder="请输入内容" id="tel">
+        </p>
+        <p class="inp">
+            用户类型：&nbsp;<select id="occupation">
+                <option value="1">医生</option>
+                <option value="2">普通用户</option>
+                <option value="3">护工</option>
+            </select>
+        </p>
+        <p class="inp">
+            <button id="submitBtn" type="submit">注册</button>
+        </p>
+    </form>    
+        </div>
+      
+    </div>
+    
+</body>
+    
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.4.1/dist/jquery.js"></script>
+    <script>
+        $("#submitBtn").click(function(e){
+            //阻止默认行为
+            var e = e || window.event;
+            e.preventDefault();
+            //获取表单数据
+            var username = $("#username").val().trim();
+            var password = $("#password").val().trim();
+            var conf = $("#conf-password").val().trim();
+            var tel = $("#tel").val().trim();
+            var occupation = $("#occupation").val().trim();
+            
+
+            
+
+            //判断密码与确认密码是否相同
+            if(conf==password){
+                //请求的参数
+            var data = {'username':username,'password':password,'tel':tel,'occupation':occupation};
+            
+            
+
+             $.ajax({
+                
+
+                //请求地址
+                url:'http://192.168.247.4:8000/register',
+                //请求参数
+                data,
+                // 请求方式
+                type:'post',
+                //成功回调
+                success: function(q){
+                    console.log(q);
+                if(q=="ok"){
+                    window.location.href='http://127.0.0.1:5500/%E7%99%BB%E5%BD%95.html';
+                    
+                }
+                else if(q=="already_regist"){
+                    alert("该用户名已被注册！请重新输入！");
+                }
+                }
+             });
+            }
+            else{
+                alert("密码与确认密码不同！请重新输入！");
+            }
+            
+           
+        })
+    </script>
+</html>

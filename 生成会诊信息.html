@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成会诊信息</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+        body{
+            background-image: url("智慧医养_files/会诊bg.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+        .treat{
+            padding-left: 20vh;
+            line-height: 40px;
+            border: 2px 2px 2px 2px solid black;
+            width: 70%;
+        }
+
+        .drug{
+            display: inline;
+            float: right;
+            position: absolute;
+            bottom: 50px;
+            left: 65%;
+            height: 85%;
+
+            
+        }
+      
+    </style>
+    <script>
+        $(function(){
+            
+            $('.find').click(function(){
+                var id = $('#id').val().trim();
+                $.ajax({
+                    url:'http://192.168.247.4:8000/admin/createconsultation',
+                    type:'get',
+                    data:{"commonId":id},
+                    dataType:'json',
+                    success:function(e){
+                        console.log(e);
+                        var common = e.common;
+                        var doctor = e.doctor;
+                        var p = e.prescription;
+                        var ph = e.phyCondition;
+
+                        if(common.gender==0){
+                            document.getElementById("gender").value="女";                    
+                        }
+                        if(common.gender==1){
+                            document.getElementById("gender").value="男";
+                        }
+                        document.getElementById("age").value = common.age;                            
+                        document.getElementById("depart").value = doctor.depart;                            
+                        document.getElementById("height").value = ph.height;                            
+                        document.getElementById("weight").value = ph.weight;                          
+                        document.getElementById("diagnosis").value = p.diagnosis;              
+                        document.getElementById("temp").value = p.temp;              
+                        document.getElementById("heart_rate").value = p.heartRate;
+                        document.getElementById("blood_pressure").value = p.bloodPressure;              
+                        document.getElementById("blood_sugar").value = p.bloodSugar;              
+                        document.getElementById("advice").value = p.advice; 
+
+                        document.getElementById("drug2").innerHTML = p.drug; 
+                        document.getElementById("drug2").style.whiteSpace = "pre-line";  
+                        
+            
+             }
+                })
+            });
+            $('.submit').click(function(){
+                var id = $('#id').val().trim();
+                $.ajax({
+                    url:'http://192.168.247.4:8000/admin/checkconsultation',
+                    data:{"commonId":id},
+                    type:'get',
+                    success:function(){
+                        alert("审核成功！");
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="treat" >
+        <h1 style="text-align: center;">会诊处方笺</h1>
+        <div class="basic">
+            <h3>患者基本信息</h3>
+            <span>ID</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);"  id="id"><button class="find">查询</button>
+            <span>性别</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);"  id="gender">
+            <span>年龄</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);"  id="age">
+            <br><span>科室</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);"  id="depart">
+            <span>身高</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);"  id="height"><span>cm</span>
+            <span>体重</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);"  id="weight"><span>kg</span>
+            <br><span>初步诊断</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);width: 50%;"  id="diagnosis">
+        </div>
+        <div class="check">
+            <h3>检查结果</h3>
+            <span>体温</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);width: 100px;"  id="temp">
+            <span>心率</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);width: 100px;"  id="heart_rate">
+            <span>血压</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);width: 100px;"  id="blood_pressure">
+            <span>血糖</span><input type="text" name="" style="border-top:0;border-left:0;border-right:0;border-color: rgb(71, 192, 248);width: 100px;"  id="blood_sugar">
+        </div>
+        <div class="result">
+            <h3>结论/医嘱</h3>
+            <textarea type="text" name="" style="border-color: rgb(71, 192, 248);width:55%;height: 200px;font-size: 20px;"  id="advice"></textarea>
+        </div>
+        <div class="drug">
+            <h3>用药情况</h3>
+            <div id="drug2"></div>
+       
+        </div>
+        <button class="submit">审核完成</button>
+    </div>
+</body>
+</html>

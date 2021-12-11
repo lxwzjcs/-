@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章推送</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+a{text-decoration:none;}
+body{
+            background-image: url("智慧医养_files/会诊bg.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+body{
+
+font-family: 'Open Sans', sans-serif;
+}
+
+body h1 {
+color:#fff;
+text-align: center;
+font-size: 40px;
+}
+.articlesend h2{
+color: black;
+text-align: center;
+font-size: 1.6em;
+font-weight: 300;
+}
+.articlesend{
+width:28%;
+margin:0 auto;
+text-align: center;
+background: white;
+padding:2em 4em 4em 4em;
+}
+.location {
+padding: 1em 0;
+}
+.line {
+position: relative;
+}
+.line span{
+position: absolute;
+top: 10%;
+left: 39%;
+background: #5b5c61;
+height: 1px;
+width: 20%;
+}
+
+
+.articlesend input[type="text"]{
+width: 81.2%;
+padding: 1.1em 1em 1.1em 4em;
+color: black;
+font-size: 16px;
+outline: none;
+background: black;
+font-weight: 500;
+border: none;
+font-family: 'Open Sans', sans-serif;
+border-radius: 0.3em;
+border-radius: 0.3em;
+border-radius: 0.3em;
+border-radius: 0.3em;
+margin:0.7em 0;
+background-color:#474a55;
+}
+.articlesend input[type="text"]{
+background-color:white;
+border-width: 2px 2px 2px 2px;
+border-color: #000;
+border-style: solid;
+}
+.submit {
+margin: 1em 0;
+}
+#art{
+font-size: 20px;
+font-weight: 300;
+color: black;
+cursor: pointer;
+outline: none;
+padding: 17px 15px;
+width:100%;
+border:3px solid rgb(71, 192, 248);
+background: rgb(71, 192, 248);
+border-radius: 0.3em;
+border-radius: 0.3em;
+border-radius: 0.3em;
+border-radius: 0.3em;
+}
+#art:hover{
+background:none;
+border: 3px solid rgb(71, 192, 248);
+color: rgb(71, 192, 248);
+
+}
+
+    </style>
+
+
+
+<script>
+    $(document).ready(function(){
+    $('#art').click(function(){
+        console.log("click");
+        var paper_name = $('#headline').val().trim();
+        var paper_url = $('#artlink').val().trim();
+        var paper = {'paper_name':paper_name,'paper_url':paper_url};
+        $.ajax({
+            url:'http://192.168.247.4:8000/admin/pushpaper',
+            type:'post',
+            data:JSON.stringify(paper),
+            contentType:"application/json",
+            success:function(e){
+                console.log(e);
+                alert("提交成功！");
+            }
+
+        });
+
+    });
+})
+</script>
+
+</head>
+<body>
+    <h1>文章推送</h1>
+		<div class="articlesend">
+			<h2>欢迎推送</h2>
+			<div class="line"><span></span></div>
+			<div class="location"><img src="./智慧医养_files/文章.png"  style="width: 100px;height:100px;"/></div>
+                  
+				<span style="font-size: 20px;color:#000;;">文章标题：</span><input type="text" placeholder="不多于20字" name="headline" id="headline">
+				<span style="font-size: 20px;color: #000;">文章链接：</span><input type="text" name="artlink" id="artlink" placeholder="输入url">
+				<div class="submit"><input type="submit" value="提交" id="art"></div>
+				
+
+				</div>
+
+		</div>
+</body>
+</html>

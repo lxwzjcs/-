@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>患者病情自述及预约</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        body{
+            background-repeat: no-repeat;
+        background-image: url("./智慧医养_files/处方处理.jpg");
+        background-size: 100% 100%;
+        background-attachment: fixed;
+        }
+        #introduction{
+        font-size: 20px;
+        margin: auto;
+        width: 70%;
+        
+      }
+      .one-intro{
+          height: 45vh;
+          
+      }
+      #two-intro{
+          height: 30vh;
+        border-width: 2px 2px 2px 2px;
+        border-color: rgb(158, 158, 158);    
+        border-style: dashed;     
+      }
+      .docinf-submit{
+          background-color: rgba(0, 0, 0, 0.212);
+          border-color: rgba(0, 0, 0, 0.212);
+          color: white;
+          width: 70px;
+          height: 50px;
+          border-radius: 20%;
+          cursor: pointer;
+        }
+        .docinf-submit:hover{
+          background-color: white;
+          border-color: rgba(0, 0, 0, 0.212);
+          color: rgba(0, 0, 0, 0.212);
+          width: 70px;
+          height: 50px;
+          border-radius: 20%;
+          cursor: pointer;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            //获取URL参数值
+           function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("&");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+                          user = decodeURI(arr[1]);
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+           console.log(GetUrlParam("ill"));
+           document.getElementById("two-intro").innerHTML=decodeURI(GetUrlParam("ill"));
+
+
+
+           //传递预约时间及医嘱
+           $('.docinf-submit').click(function(){
+               var date = $('#date').val();
+               var address = $('#address').val().trim();
+               var docname = $('#docname').val().trim();
+               var doctel = $('#doctel').val().trim();
+               var advice = $('#advice').val().trim();
+               var username = decodeURI(GetUrlParam("patname"));
+
+               var adv = {'pre_time':date,'pre_addr':address,'docname':docname,'pre_tel':doctel,'result':advice,'username':username};
+
+               $.ajax({
+                   url:'http://192.168.247.4:8000/doctor/sendpreresult',
+                   type:'post',
+                   data:JSON.stringify(adv),
+                   contentType:"application/json",
+                   success:function(e){
+                       console.log(e);
+                       alert("提交成功！");
+                   }
+
+               });
+
+           });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="introduction">
+        <div class="one-intro">
+            <h1>病情自述</h1>
+            <div id="two-intro"></div>
+        </div>
+        <hr>
+
+        <div class="appointment">
+            <h1>预约就诊时间</h1>
+            <div class="time">
+                <span class="time">预约时间</span>
+                <input type="date" name="date" id="date">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span >预约地点</span>
+                <input type="text" name="address" id="address"><br>
+                
+                <span>医生姓名</span>
+                <input type="text" name="docname" id="docname">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>医生联系方式</span>
+                <input type="tel" name="doctel" id="doctel">
+            </div>
+        </div>
+        <hr>
+
+        <div class="doc-advice">
+            <h1>医嘱</h>
+            <br>
+            
+            <textarea  name="advice" id="advice" style="font-size: 20px ;width: 900px;height: 100px;"></textarea>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" class="docinf-submit">
+        </div>
+    </div>
+</body>
+</html>

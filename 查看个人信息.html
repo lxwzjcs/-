@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>个人信息</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+
+<style>
+    body{
+        background-repeat: no-repeat;
+        background-image: url("./智慧医养_files/commonbg.jpg");
+        background-size: 100% 100%;
+        background-attachment: fixed;
+    }
+	html {
+  font-family: sans-serif;
+  
+}
+.about {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+   float: left;
+   margin: 0;padding: 0;
+
+}
+.about-left-w3ls{
+	width: 60%;
+}
+h5{
+	position: absolute;
+	font-size: 40px;
+	top: 20%;
+	left: 30%;
+
+}
+h5 span{
+	font-size: 42px;
+	color: #0086fe;
+}
+.col-md-6{
+  position: absolute;
+  left: 35%;
+  top: 20px;
+  float: left;
+
+}
+h3{
+	font-size: 40px;
+    position: relative;
+	left: 200px;
+
+}
+
+  ul{
+	margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 20px;
+  list-style-type: none;
+  line-height: 50px;
+  }
+  .botton-w3ls{
+	display: inline-block;
+    color: #fff;
+    font-size: 15px;
+    background: #0086fe;
+    margin: 10px 10px 0 0px;
+    text-decoration: none;
+    text-transform: capitalize;
+	letter-spacing: .5px;
+	padding: 7px 16px;
+		font-size: 14px;
+		width: 35px;
+		font-size: 15px;
+		text-align: center;
+        line-height: 20px;
+  }
+  .botton-w3ls:hover {
+    background: #ecb731;
+    color: #fff;
+    text-decoration: none;
+	outline:none;
+}
+li span{
+	padding-right: 150px;
+}
+</style>
+<script>
+	$(function(){
+
+		//获取URL参数值(用户username)
+		function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("#");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+
+
+            //获取用户信息展示
+            var user = decodeURI(GetUrlParam("username")) ;
+            console.log(user);
+            $.ajax({
+                url:'http://192.168.247.4:8000/common/showself',
+                type:'get',
+                data:{'username':user},
+                dataType:'json',
+                success:function(e){
+                    console.log(e);
+                    document.getElementById("name").value=e.name;
+                    if(e.gender==0){
+                        document.getElementsByClassName("woman")[0].selected="selected";
+                    }
+                    if(e.gender==1){
+                        document.getElementsByClassName("man")[0].selected="selected";
+
+                    }
+                    document.getElementById("age").value=e.age;
+                    document.getElementById("tel").value=e.tel;
+                    document.getElementById("card").value=e.card;
+                    document.getElementById("job").value=e.job;
+                    if(e.marry==0){
+                    document.getElementsByClassName("ed")[0].selected="selected";
+
+                    }
+                    if(e.marry==1){
+                    document.getElementsByClassName("non")[0].selected="selected";
+
+                    }
+					if(e.carerhelp==0){
+                    document.getElementsByClassName("no")[0].selected="selected";
+                    document.getElementById("carerId").value = "无";
+
+                    }
+                    if(e.carerhelp==1){
+                    document.getElementsByClassName("yes")[0].selected="selected";
+                    document.getElementById("carerId").value=e.carerId;
+                    }
+                    
+
+                    
+
+
+
+
+
+                    
+                }
+            });
+		//更新用户信息
+        $('.botton-w3ls').click(function(){
+            var name = $('#name').val().trim();
+            var gender = $('#gender option:selected').val().trim();
+            var age = $('#age').val().trim();
+            var tel = $('#tel').val().trim();
+            var card = $('#card').val().trim();
+            var marry = $('#marry option:selected').val().trim();
+            var job = $('#job').val().trim();
+            var carerhelp = $('#carerhelp option:selected').val().trim();
+            var carerId = $('#carerId').val().trim();
+
+            var doc = {'name':name,'gender':gender,'age':age,'tel':tel,
+                       'card':card,'marry':marry,'job':job,'carerhelp':carerhelp,'carerId':carerId,'username':user};
+
+            $.ajax({
+                url:'http://192.168.247.4:8000/common/addself',
+                data:JSON.stringify(doc),
+                contentType:"application/json",
+                type:'post',
+                success:function(e){
+                    console.log(e);
+                    alert("提交成功！");
+                }
+
+            });           
+        });
+
+
+		
+		
+	})
+</script>
+</head>
+<body>
+
+<!-- about -->
+<div class="about" id="about">
+	
+		<div class="col-md-6 person-info-agileits-w3layouts">
+		<h3 class="w3_head w3_head1">个人信息</h3>
+			<ul>
+				<li><span>姓名</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" id="name"></li>
+				<li><span>年龄</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="age" id="age"></li>
+				<li><span>性别&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;<select name="gender" id="gender">
+					<option value="0" class="woman">女</option>
+                    <option value="1" class="man">男</option>
+				</select></li>
+				<li><span>手机号&nbsp;&nbsp;&nbsp;</span><input type="text" name="tel" id="tel"></li>
+				<li><span>身份证号</span><input type="text" name="card" id="card"></li>
+				<li><span>婚姻状况</span><select name="marry" id="marry">
+					<option value="0" class="ed">已婚</option>
+					<option value="1" class="non">未婚</option>
+				</select></li>
+				<li><span>职业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="text" name="job" id="job"></li>
+				<li><span>是否拥有护工</span><select name="carerhelp" id="carerhelp">
+					<option value="0" class="no">没有</option>
+					<option value="1" class="yes">有</option>
+				</select></li>
+				<li><span>护工ID&nbsp;&nbsp;&nbsp;</span><input type="text" name="carerId" id="carerId"></li>
+
+
+				<li><a href="#" class="botton-w3ls">提交</a>
+				</li>
+			</ul>
+		</div>
+	<div class="clearfix"></div>
+</div>
+<!-- //about-bottom -->
+
+
+
+
+
+</body>
+</html>

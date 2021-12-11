@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+
+
+
+
+<title>管理用户信息</title>
+<style>
+.table tbody tr td {
+	text-align: center;
+	border-left: 1px solid #ECECEC;
+	border-right: 1px solid #ECECEC;
+	border-bottom: 1px solid #ECECEC;
+	font-size: 15px;
+	color: #909090;
+	height: 37px;
+}
+    body{
+            background-image: url("智慧医养_files/会诊bg.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+	body {
+	margin: 0;
+	font: normal 15px "Microsoft YaHei";
+	color: #0C0C0C;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#common,#carer{
+	display: none;
+}
+
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: "Microsoft Yahei"
+}
+
+
+
+a:link,a:visited,a:hover,a:active {
+	list-style: none;
+	text-decoration: none;
+	color: #909090;
+}
+
+
+
+.table {
+	padding: 0;
+	margin: 0;
+	position: relative;
+	margin: 0 auto;
+}
+
+.table tbody tr th {
+	background: #044599 no-repeat;
+	text-align: center;
+	border-left: 1px solid #02397F;
+	border-right: 1px solid #02397F;
+	border-bottom: 1px solid #02397F;
+	border-top: 1px solid #02397F;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: #fff;
+	height: 37px;
+}
+
+</style>
+
+<script>
+	$(function() {
+		var s1;
+		var s2;
+		var s3;
+		$.ajax({
+			url:'http://192.168.247.4:8000/admin/getallinformation',
+			type:'get',
+			dataType:'json',
+			data:{'flag':1},
+			success:function(e){
+				console.log(e);
+				var count1 = e.count1;
+				s1 = e.doctors;
+                console.log(s1);
+				var count2 = e.count2;
+				s2 = e.commons;
+				var count3 = e.count3;
+				s3 = e.carers;
+
+				var tableobj =document.getElementById("doctable");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("td");
+                for(j=0;j<count1;j++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].doctorId;
+                    trobj.appendChild(tdobj);
+
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].name;
+                    trobj.appendChild(tdobj);
+
+                    
+
+                    var tdobj = document.createElement("td");
+                    if(s1[j].gender==1){
+                        tdobj.innerHTML="男";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s1[j].gender==0){
+                        tdobj.innerHTML="女";
+                        trobj.appendChild(tdobj);
+                    }
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].age;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].tel;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    if(s1[j].title==0){
+                        tdobj.innerHTML="普通医生";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s1[j].title==1){
+                        tdobj.innerHTML="主任医师";
+                        trobj.appendChild(tdobj);
+                    }
+					if(s1[j].title==2){
+                        tdobj.innerHTML="专家";
+                        trobj.appendChild(tdobj);
+                    }
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].hospital;
+                    trobj.appendChild(tdobj);
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].depart;
+                    trobj.appendChild(tdobj);
+                    
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="<a href='#' class='table1'>删除</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var u = s1[j].name;
+                    document.getElementsByClassName("table1")[j].id=u;
+                    
+        
+
+                
+                    
+                }
+                $('.table1').click(function(){
+		                var namedoc = this.id;
+		                $.ajax({
+			                url:'http://192.168.247.4:8000/admin/managedoctor',
+			                type:'get',
+			                data:{'name':namedoc},
+			                success:function(){
+				                alert("删除成功！");
+			                }
+
+
+				
+
+		                })
+	                });
+
+
+				var tableobj =document.getElementById("comtable");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("td");
+                for(c=0;c<count2;c++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s2[c].commonId;
+                    trobj.appendChild(tdobj);
+
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s2[c].name;
+                    trobj.appendChild(tdobj);
+					
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s2[c].age;
+                    trobj.appendChild(tdobj);
+
+                    
+
+                    var tdobj = document.createElement("td");
+                    if(s2[c].gender==1){
+                        tdobj.innerHTML="男";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s2[c].gender==0){
+                        tdobj.innerHTML="女";
+                        trobj.appendChild(tdobj);
+                    }
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s2[c].tel;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s2[c].card;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    if(s2[c].marry==0){
+                        tdobj.innerHTML="已婚";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s2[c].marry==1){
+                        tdobj.innerHTML="未婚";
+                        trobj.appendChild(tdobj);
+                    }
+					
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s2[c].job;
+                    trobj.appendChild(tdobj);
+
+					var tdobj = document.createElement("td");
+                    if(s2[c].carerhelp==0){
+                        tdobj.innerHTML="无";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s2[c].carerhelp==1){
+                        tdobj.innerHTML=s2[c].carerId;
+                        trobj.appendChild(tdobj);
+                    }
+
+					
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="<a href='#' class='table2'>删除</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var z = s2[c].name;
+                    document.getElementsByClassName("table2")[c].id=z;
+                    
+        
+
+                
+                    
+                }
+                $('.table2').click(function(){
+		                var namecom = this.id;
+		                $.ajax({
+			                url:'http://192.168.247.4:8000/admin/managecommon',
+			                type:'get',
+			                data:{'name':namecom},
+			                success:function(){
+				                alert("删除成功！");
+			                }
+
+
+				
+
+		                })
+	                });
+
+				var tableobj =document.getElementById("cartable");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("td");
+                for(w=0;w<count3;w++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].carerId;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].name;
+                    trobj.appendChild(tdobj);
+					var tdobj = document.createElement("td");
+                    if(s3[w].gender==1){
+                        tdobj.innerHTML="男";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s3[w].gender==0){
+                        tdobj.innerHTML="女";
+                        trobj.appendChild(tdobj);
+                    }
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].age;
+                    trobj.appendChild(tdobj);
+
+                    
+
+                    
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].tel;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].card;
+                    trobj.appendChild(tdobj);
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].addr;
+                    trobj.appendChild(tdobj);
+
+					var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s3[w].workyear;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    if(s3[w].serveType==0){
+                        tdobj.innerHTML="居家服务";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s3[w].serveType==1){
+                        tdobj.innerHTML="非居家服务";
+                        trobj.appendChild(tdobj);
+                    }
+	
+
+					var tdobj = document.createElement("td");
+                    if(s3[w].employee==0){
+                        tdobj.innerHTML="未雇佣";
+                        trobj.appendChild(tdobj);
+						
+                    }
+                    if(s3[w].employee==1){
+                        tdobj.innerHTML="已雇佣";
+                        trobj.appendChild(tdobj);
+						
+                    }
+
+					
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="<a href='#' class='table3'>删除</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var x = s3[w].name;
+                    document.getElementsByClassName("table3")[w].id=x;
+                    
+        }
+        $('.table3').click(function(){
+		                var namecar = this.id;
+		                $.ajax({
+			                url:'http://192.168.247.4:8000/admin/managecarer',
+			                type:'get',
+			                data:{'name':namecar},
+			                success:function(){
+				                alert("删除成功！");
+			                }
+
+
+				
+
+		                })
+	                });
+				// 如果鼠标移到行上时，执行函数
+                $('.table tr').css('text-align' , 'center');
+                    $('.table tr').css('font-size' , '15px');
+                    $('.table tr').css('line-height' , '50px');
+                    $('.table tr').css({background : "#FFF"});
+                    $('.table tr').css({color: "#909090"});
+
+	$(".table tr").mouseover(function() {
+		$(this).css({background : "#CDDAEB"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#1D1E21"});
+		});
+	}).mouseout(function() {
+		$(this).css({background : "#FFF"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#909090"});
+		});
+	});
+}
+			});
+});
+</script>
+<style>
+	#bar,.ui_content{
+		float: left;
+	}
+	.ui_content{
+	width: 80%;
+    }
+	ul{
+	      list-style-type:none;
+	      margin:0;
+	      padding:0;
+          width: 40vh;
+          height: 100vh;
+          background-color: #02397F;
+          font-size: 20px
+      }
+      li a{
+          text-decoration: none;
+          color: rgba(196, 185, 185, 0.856);
+          display: block;
+          padding: 15px 30px;
+      }
+      
+     
+      li a:hover{
+          background-color: rgb(247, 234, 226);
+          color: rgb(31, 29, 29);
+      }
+      
+      
+      
+      .active{
+          background-color: rgb(247, 234, 226);
+          color: rgb(31, 29, 29);
+          display: block;
+      }
+</style>
+<script>
+	$(function(){
+	$('#a-docter').click(function(){
+            $('#a-docter').addClass('active');
+            $('#a-common').removeClass('active');
+            $('#a-carer').removeClass('active');
+            
+
+            $('#docter').css('display','block');
+            $('#common').css('display','none');
+            $('#carer').css('display','none');
+           
+        });
+		$('#a-common').click(function(){
+            $('#a-common').addClass('active');
+            $('#a-docter').removeClass('active');
+            $('#a-carer').removeClass('active');
+            
+
+            $('#common').css('display','block');
+            $('#docter').css('display','none');
+            $('#carer').css('display','none');
+           
+        });
+		$('#a-carer').click(function(){
+            $('#a-carer').addClass('active');
+            $('#a-common').removeClass('active');
+            $('#a-docter').removeClass('active');
+            
+
+            $('#carer').css('display','block');
+            $('#common').css('display','none');
+            $('#docter').css('display','none');
+           
+        });
+		})
+</script>
+
+</script>
+</head>
+<body>
+	<div id="bar">
+		<ul>
+			<li><a href="#" id="a-docter">医生</a></li>
+			<li><a href="#" id="a-common">普通用户</a></li>
+			<li><a href="#" id="a-carer">护工</a></li>
+			</ul>
+	</div>
+	<div id="docter">
+			<div class="ui_content">
+				<div class="ui_tb">
+					<table class="table" id="doctable" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+						<tr>
+							
+							</th>
+                            <th>ID</th>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>年龄</th>
+							<th>手机号</th>
+							<th>职位</th>
+							<th>医院</th>
+							<th>科室</th>
+
+							<th>操作</th>
+						</tr>
+							
+						
+							
+						
+					</table>
+				</div>
+			</div>
+	</div>
+				<div id="common">
+			<div class="ui_content">
+				<div class="ui_tb">
+					<table class="table" id="comtable" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+						<tr>
+							
+							</th>
+                            <th>ID</th>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>年龄</th>
+							<th>手机</th>
+							<th>身份证号</th>
+							<th>婚姻</th>
+							<th>职业</th>
+							<th>护工ID</th>
+							<th>操作</th>
+						</tr>
+							
+						
+							
+						
+					</table>
+				</div>
+			</div>
+				</div>
+
+			<div id="carer">
+				<div class="ui_content">
+					<div class="ui_tb">
+						<table class="table" id="cartable" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+							<tr>
+								
+								</th>
+                                <th>ID</th>
+								<th>姓名</th>
+								<th>性别</th>
+								<th>年龄</th>
+								<th>手机号</th>
+								<th>身份证号</th>
+								<th>家庭住址</th>
+								<th>工作年份</th>
+								<th>服务类型</th>
+								<th>是否被雇佣</th>
+								<th>操作</th>
+							</tr>
+								
+							
+								
+							
+						</table>
+					</div>
+				</div>
+			</div>
+				
+
+</body>
+</html>

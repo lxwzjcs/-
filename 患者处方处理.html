@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>患者处方处理</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+        body{
+            background-image: url("./智慧医养_files/处方处理.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+        .docinf-submit:hover{
+          background-color: white;
+          border-color: rgba(0, 0, 0, 0.212);
+          color: rgba(0, 0, 0, 0.212);
+          width: 70px;
+          height: 50px;
+          border-radius: 20%;
+          cursor: pointer;
+        }
+        .m-method{
+          font-size: 20px;
+          margin: auto;
+          width: 70%;
+      }
+      .CheckResult{
+          line-height: 100px;
+      }
+      
+      .one-intro{
+          height: 45vh;
+          
+      }
+      #two-intro{
+          height: 30vh;
+          border-width: 2px 2px 2px 2px;
+        border-color: rgb(158, 158, 158);    
+        border-style: dashed; 
+      }
+      .docinf-submit{
+          background-color: rgba(0, 0, 0, 0.212);
+          border-color: rgba(0, 0, 0, 0.212);
+          color: white;
+          width: 70px;
+          height: 50px;
+          border-radius: 20%;
+      }
+    </style>
+
+
+<script>
+    $(document).ready(function(){
+            //获取URL参数值
+           function GetUrlParam(paraName){
+　　　　        var url = document.location.toString();
+　　　　        var arrObj = url.split("?");
+　　　　        if (arrObj.length > 1) {
+　　　　　　        var arrPara = arrObj[1].split("&");
+　　　　　　        var arr;
+　　　　　　        for (var i = 0; i < arrPara.length; i++) {
+　　　　　　　　         arr = arrPara[i].split("=");
+　　　　　　　　         if (arr != null && arr[0] == paraName) {
+　　　　　　　　　　        return arr[1];
+　　　　　　　　         }
+　　　　　　          }
+　　　　　　         return "";
+　　　　          }
+　　　　         else {
+　　　　　　         return "";
+　　　　         }
+　　       }
+           console.log(GetUrlParam("ill"));
+           document.getElementById("two-intro").innerHTML=decodeURI(GetUrlParam("ill"));
+
+           //处理并发送患者检查结果
+           $('.docinf-submit').click(function(){
+               var username = decodeURI(GetUrlParam("patname"));
+               var docname = decodeURI(GetUrlParam("docname"));
+               var temp = $('#temp').val().trim();
+               var heart_rate = $('#heart_rate').val().trim();
+               var blood_pressure = $('#blood_pressure').val().trim();
+               var blood_sugar = $('#blood_sugar').val().trim();
+               var diagnosis = $('#diagnosis').val().trim();
+               var drug = $('#drug').val().trim();
+               var advice = $('#advice').val().trim();
+               var check = {'username':username,'docname':docname,'temp':temp,'heart_rate':heart_rate,'blood_pressure':blood_pressure,
+                            'blood_sugar':blood_sugar,'diagnosis':diagnosis,'drug':drug,'advice':advice};
+           
+               $.ajax({
+                 url:'http://192.168.247.4:8000/doctor/handleprescription',
+                 type:'post',
+                 data:JSON.stringify(check),
+                 contentType:"application/json",
+                 success:function(w){
+                
+                    console.log(w);
+                    alert("提交成功！");
+                 
+            
+                 }
+            
+                });
+            });
+
+           
+
+           
+
+        });
+</script>
+</head>
+<body>
+    <div class="m-method">
+        <div class="one-intro">
+            <h1>病情自述</h1>
+            <div id="two-intro"></div>
+        </div>
+        <hr>
+        <div class="CheckResult">
+             <h1>检查结果</h1>
+             <span>体温（℃）：</span><input type="text" name="temp" id="temp">
+             <span>心率（次/min）：</span><input type="text" name="heart_rate" id="heart_rate"><br>
+             
+             <span>血压（mmHg）：</span><input type="text" name="blood_pressure" id="blood_pressure">
+             <span>血糖（mmol/L）：</span><input type="text" name="blood_sugar" id="blood_sugar"><br>
+             <span>初步诊断：</span><textarea name="diagnosis" id="diagnosis" style="width: 50vh;height: 100px;"></textarea>
+             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <span>用药：</span><textarea name="drug" id="drug" style="width: 50vh;height: 100px;"></textarea><br>
+            </div>
+             <hr>
+
+            <div class="doc-advice">
+                <h1>医嘱</h1>
+                
+                <textarea  name="advice" id="advice" style="font-size: 20px;width: 900px;height: 100px;"></textarea>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="docinf-submit">
+            </div>
+        
+     </div>
+</body>
+</html>

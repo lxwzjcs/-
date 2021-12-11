@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论坛管理</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+		body{
+            background-image: url("智慧医养_files/会诊bg.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+        }
+        .table tbody tr th {
+	background: #044599 no-repeat;
+	text-align: center;
+	border-left: 1px solid #02397F;
+	border-right: 1px solid #02397F;
+	border-bottom: 1px solid #02397F;
+	border-top: 1px solid #02397F;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: #fff;
+	height: 37px;
+}
+.table1,.table2,.table3{
+    text-decoration: none;
+    color: #909090;
+
+}
+.table1:hover,.table2:hover,.table3:hover{
+    text-decoration: none;
+    color: black;
+    
+}
+    </style>
+
+    <script>
+        $(function() {
+		var s1;
+
+		$.ajax({
+			url:'http://192.168.247.4:8000/admin/manageforum',
+			type:'get',
+			dataType:'json',
+			data:{'flag':1},
+			success:function(e){
+				console.log(e);
+				var count1 = e.count;
+				s1 = e.list;
+                console.log(s1);
+				
+
+				var tableobj =document.getElementById("carapply");
+                var trobj =document.createElement("tr");
+                var tdobj = document.createElement("td");
+                for(var j=0;j<count1;j++){
+                    var trobj =document.createElement("tr");
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].askId;
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="是";
+                    tdobj.className="green";
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="是";
+                    tdobj.className="green";
+                    trobj.appendChild(tdobj);
+
+                    var tdobj = document.createElement("td");
+                    if(s1[j].ifReply==0){
+                        tdobj.innerHTML="否";
+                        tdobj.className="red";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s1[j].ifReply==1){
+                        tdobj.innerHTML="是";
+                        tdobj.className="green";
+                        trobj.appendChild(tdobj);
+                    }
+
+                    var tdobj = document.createElement("td");
+                    if(s1[j].ifCheck==0){
+                        tdobj.innerHTML="否";
+                        tdobj.className="red";
+                        trobj.appendChild(tdobj);
+                    }
+                    if(s1[j].ifCheck==1){
+                        tdobj.innerHTML="是";
+                        tdobj.className="green";
+                        trobj.appendChild(tdobj);
+                    }
+
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML=s1[j].askTime;
+                    trobj.appendChild(tdobj);
+                    
+                    
+                    
+                    var tdobj = document.createElement("td");
+                    tdobj.innerHTML="<a href='#' class='table1' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;<a href='#' class='table2'>批准</a>&nbsp;&nbsp;&nbsp;<a href='#' class='table3'>删除</a>";
+                    trobj.appendChild(tdobj);
+                    trobj.appendChild(tdobj);
+                    tableobj.appendChild(trobj);
+                    var u1 = "http://127.0.0.1:5500/%E7%AE%A1%E7%90%86%E5%91%98%E6%9F%A5%E7%9C%8B%E9%97%AE%E9%A2%98.html?ask="+s1[j].askContent;
+                    document.getElementsByClassName("table1")[j].href=u1;
+
+                    var u2 = s1[j].askId;
+					console.log(u2);
+                    document.getElementsByClassName("table2")[j].id=u2;
+                    document.getElementsByClassName("table3")[j].id=u2;
+                    
+        
+        
+
+                
+                    
+                }                    
+                $('.table2').click(function(){
+						var d = this.id;
+		                $.ajax({
+			                url:'http://192.168.247.4:8000/admin/checkask',
+			                type:'get',
+			                data:{'askId':d,'check':1},
+			                success:function(){
+				                alert("批准成功！");
+			                }
+
+
+				
+
+		                })
+	                });
+                    $('.table3').click(function(){
+		                var x = this.id;
+		                $.ajax({
+			                url:'http://192.168.247.4:8000/admin/deleteask',
+			                type:'get',
+			                data:{'askId':x,'delete':1},
+			                success:function(){
+				                alert("删除成功！");
+			                }
+
+
+				
+
+		                })
+	                });
+
+
+				// 如果鼠标移到行上时，执行函数
+				$('.table tr').css('text-align' , 'center');
+                    $('.table tr').css('font-size' , '15px');
+                    $('.table tr').css('line-height' , '50px');
+                    $('.red').css('color','red');
+                    $('.table tr').css({background : "#FFF"});
+                    $('.table tr').css({color: "#909090"});
+
+	$(".table tr").mouseover(function() {
+		$(this).css({background : "#CDDAEB"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#1D1E21"});
+            $('.red').css('color','red');
+		});
+	}).mouseout(function() {
+		$(this).css({background : "#FFF"});
+		$(this).children('td').each(function(index, ele){
+			$(ele).css({color: "#909090"});
+            $('.red').css('color','red');
+		});
+	});
+}
+			});
+});
+    </script>
+</head>
+<body>
+    <div><h1>论坛管理表</h1></div>
+	<div id="forum">
+			<div class="ui_content">
+				<div class="ui_tb">
+					<table class="table" id="carapply" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+						<tr>
+							
+							</th>
+							<th>问题编号</th>
+							<th>可读</th>
+							<th>可回复</th>
+							<th>是否回复</th>
+							<th>审阅</th>
+							<th>创建时间</th>
+                            
+
+							<th>操作</th>
+						</tr>
+							
+						
+						
+					</table>
+				</div>
+			</div>
+	</div>
+</body>
+</html>
